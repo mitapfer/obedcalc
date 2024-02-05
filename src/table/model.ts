@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {nanoid} from "nanoid";
+import {calc} from "./lib.ts";
 
 type ColumnsMapValue = {
   key: string;
@@ -89,7 +90,7 @@ export class Model {
 
     this.rows.forEach((row, idx) => {
       row.forEach((col) => {
-        const value = Number(col.value)
+        const value = calc(col.value)
         if(!isNaN(value)){
           rows[idx] = (rows[idx] || 0) + value
         }
@@ -104,7 +105,6 @@ export class Model {
   }
 
   get totalRowsSum () {
-    console.log('==>> ',this.rowsSum)
     return this.rowsSum.map(sum => sum + sum * (this.serviceFee.value / 100))
   }
 
@@ -114,7 +114,7 @@ export class Model {
     this.rows.forEach(row => {
       let colSum = 0
       row.forEach(col => {
-        const value = Number(col.value)
+        const value = calc(col.value)
         if(!isNaN(value)){
           colSum += value
         }

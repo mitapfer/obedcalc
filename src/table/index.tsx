@@ -4,6 +4,7 @@ import {Fragment, ReactNode, useState} from "react";
 import Input from "antd/es/input/Input";
 import {Button} from "antd";
 import {MinusCircleOutlined} from '@ant-design/icons';
+import {Calculator} from "../calculator/calculator.tsx";
 
 export const ServiceFeeComp = observer(() => {
   return (
@@ -115,6 +116,7 @@ export const Table = observer(() => {
         }
         <h1 className='flex justify-end my-2'>Общая сумма: {model.sum}</h1>
       </div>
+      <Calculator />
     </>
   );
 });
