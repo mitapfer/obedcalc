@@ -10,8 +10,6 @@ export const calc = (val: string): number => {
 
   const hasOperators = operators.some(o => val.includes(o))
 
-  console.log('hasOperators ', hasOperators)
-
   if(!hasOperators){
     return NaN
   }

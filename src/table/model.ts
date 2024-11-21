@@ -122,8 +122,23 @@ export class Model {
     })
   }
 
-  get totalRowsSum () {
-    return this.rowsSum.map(sum => sum + sum * (this.serviceFee.value / 100))
+  get totalRowsSum() {
+    return this.rows.map((row) => {
+      const regularSum = row.reduce((acc, col) => {
+        const value = calc(col.value)
+        return acc + (isNaN(value) ? 0 : value)
+      }, 0)
+      
+      const serviceFeeSum = row.reduce((acc, col) => {
+        if (!col.excludeServiceFee) {
+          const value = calc(col.value)
+          return acc + (isNaN(value) ? 0 : value)
+        }
+        return acc
+      }, 0) * (this.serviceFee.value / 100)
+  
+      return regularSum + serviceFeeSum
+    })
   }
 
   get sum(): number {
