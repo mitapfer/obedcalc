@@ -5,6 +5,7 @@ import {calc} from "./lib.ts";
 type ColumnsMapValue = {
   key: string;
   value: string;
+  excludeServiceFee?: boolean;
 }
 
 const persons = ['№','Элёр', 'Жавлон', 'Санжар', 'Влад', 'Максад']
@@ -41,23 +42,23 @@ export class Model {
     return max
   }
 
-  addCol () {
+  addCol() {
     this.rows.forEach((row, idx) => {
       if(row.length === 0){
-        row.push({key: nanoid(), value: persons[idx] || ''})
+        row.push({key: nanoid(), value: persons[idx] || '', excludeServiceFee: false})
       }else {
-        row.push({key: nanoid(), value: ''})
+        row.push({key: nanoid(), value: '', excludeServiceFee: false})
       }
     })
   }
 
-  addRow () {
+  addRow() {
     const columns: ColumnsMapValue[] = []
-
+  
     for (let i = 0; i < this.maxColSize; i++) {
-      columns.push({key: nanoid(), value: ''})
+      columns.push({key: nanoid(), value: '', excludeServiceFee: false})
     }
-
+  
     this.rows.push(columns)
   }
 
@@ -85,6 +86,14 @@ export class Model {
     this.rows[rowIndex][colIndex].value = value
   }
 
+  setColumnServiceFee(colIndex: number, exclude: boolean) {
+    this.rows.forEach(row => {
+      if (row[colIndex]) {
+        row[colIndex].excludeServiceFee = exclude;
+      }
+    });
+  }
+
   get rowsSum () {
     const rows: number[] = []
 
@@ -100,29 +109,42 @@ export class Model {
     return rows
   }
 
-  get serviceFeeSum () {
-    return this.rowsSum.map(sum => (sum * (this.serviceFee.value / 100)))
+  get serviceFeeSum() {
+    return this.rows.map((row) => {
+      const sum = row.reduce((acc, col) => {
+        if (!col.excludeServiceFee) {
+          const value = calc(col.value)
+          return acc + (isNaN(value) ? 0 : value)
+        }
+        return acc
+      }, 0)
+      return sum * (this.serviceFee.value / 100)
+    })
   }
 
   get totalRowsSum () {
     return this.rowsSum.map(sum => sum + sum * (this.serviceFee.value / 100))
   }
 
-  get sum (): number {
-
+  get sum(): number {
     let sum = 0
     this.rows.forEach(row => {
-      let colSum = 0
+      let regularSum = 0
+      let serviceFeeSum = 0
+      
       row.forEach(col => {
         const value = calc(col.value)
         if(!isNaN(value)){
-          colSum += value
+          regularSum += value
+          if (!col.excludeServiceFee) {
+            serviceFeeSum += value
+          }
         }
       })
-
-      sum += colSum + colSum * (this.serviceFee.value / 100)
+  
+      sum += regularSum + (serviceFeeSum * (this.serviceFee.value / 100))
     })
-
+  
     return sum
   }
 

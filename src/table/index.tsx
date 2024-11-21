@@ -1,10 +1,10 @@
-import {FormModel, model} from "./model.ts";
-import {observer} from "mobx-react-lite";
-import {Fragment, ReactNode, useState} from "react";
+import { FormModel, model } from "./model.ts";
+import { observer } from "mobx-react-lite";
+import { Fragment, ReactNode, useState } from "react";
 import Input from "antd/es/input/Input";
-import {Button} from "antd";
-import {MinusCircleOutlined} from '@ant-design/icons';
-import {Calculator} from "../calculator/calculator.tsx";
+import { Button, Tooltip } from "antd";
+import { DollarOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { Calculator } from "../calculator/calculator.tsx";
 
 export const ServiceFeeComp = observer(() => {
   return (
@@ -44,8 +44,16 @@ export const Table = observer(() => {
                           <div>
                             {
                               rowIdx === 0 && (
-                                <div className='flex justify-center'>
-                                  <MinusCircleOutlined onClick={() => model.removeCol(colIdx)}/>
+                                <div className={`flex justify-center gap-2 ${colIdx === 0 ? 'opacity-0' : ''}`}>
+                                  <Tooltip title={colIdx === 0 ? undefined : 'Удалить колонку'}>
+                                    <MinusCircleOutlined onClick={() => model.removeCol(colIdx)} />
+                                  </Tooltip>
+                                  <Tooltip title={colIdx === 0 ? undefined : col.excludeServiceFee ? 'Включить обслугу' : 'Выключить обслугу'}>
+                                    <DollarOutlined
+                                      onClick={() => model.setColumnServiceFee(colIdx, !col.excludeServiceFee)}
+                                      className={col.excludeServiceFee ? 'opacity-50' : ''}
+                                    />
+                                  </Tooltip>
                                 </div>
                               )
                             }
@@ -69,7 +77,7 @@ export const Table = observer(() => {
                             rowIdx === 0 && (
                               <div className='flex justify-center'>
                                 <span className='leading-[10px]'>Обслуга</span><MinusCircleOutlined
-                                style={{opacity: 0}}/>
+                                  style={{ opacity: 0 }} />
                               </div>
                             )
                           }
@@ -90,7 +98,7 @@ export const Table = observer(() => {
                       {
                         rowIdx === 0 && (
                           <div className='flex justify-center'>
-                            <span className='leading-[10px]'>Итого</span>  <MinusCircleOutlined style={{opacity: 0}}/>
+                            <span className='leading-[10px]'>Итого</span>  <MinusCircleOutlined style={{ opacity: 0 }} />
                           </div>
                         )
                       }
@@ -121,7 +129,7 @@ export const Table = observer(() => {
   );
 });
 
-export function Border({children}: { children: ReactNode }) {
+export function Border({ children }: { children: ReactNode }) {
   return (
     <div className='p-2 border border-black'>
       {children}
@@ -142,7 +150,7 @@ export const GenerateColumn = observer(() => {
             type="number"
             placeholder='Кол-во строк'
             value={form.rowsCount}
-            onChange={e => form.setRowsCount(Number(e.target.value))}/>
+            onChange={e => form.setRowsCount(Number(e.target.value))} />
         </label>
         <label>
           <div>Кол-во колонок</div>
@@ -151,7 +159,7 @@ export const GenerateColumn = observer(() => {
             type="number"
             placeholder='Кол-во колонок'
             value={form.colsCount}
-            onChange={e => form.setColsCount(Number(e.target.value))}/>
+            onChange={e => form.setColsCount(Number(e.target.value))} />
         </label>
       </div>
       <div className="flex justify-end mt-3">
