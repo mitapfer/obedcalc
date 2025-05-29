@@ -32,6 +32,12 @@ export const Table = observer(() => {
         <Button onClick={model.addCol}>
           Добавить колонку
         </Button>
+        <Button danger onClick={model.clearAll}>
+          Очистить все
+        </Button>
+        <Button danger onClick={model.reset}>
+          Удалить все
+        </Button>
       </div>
       <div>
         {

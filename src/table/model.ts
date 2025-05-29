@@ -192,6 +192,22 @@ export class Model {
     this.rows[rowIndex][colIndex].value = value
   }
 
+  clearAll () {
+    this.rows.forEach((row) => {
+      row.forEach((col, colIdx) => {
+        if(colIdx === 0){
+          return
+        }
+        col.value = ''
+      })
+    })
+  }
+
+  reset () {
+    this.rows = []
+    this.serviceFee.setValue(0)
+  }
+
 }
 
 export const model = new Model()
