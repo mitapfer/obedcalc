@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {nanoid} from "nanoid";
 import {calc} from "./lib.ts";
+import {makePersistable} from "mobx-persist-store";
 
 type ColumnsMapValue = {
   key: string;
@@ -16,6 +17,19 @@ class ServiceFeeModel {
   constructor() {
     this.value = 0
     makeAutoObservable(this, {}, {autoBind: true})
+    makePersistable(this,
+        {
+          name: 'ServiceFeeModel',
+          properties: [
+            {
+              key: 'value',
+              deserialize: (value: string) => Number(value),
+              serialize: (value: number) => value,
+            }
+          ],
+          storage: window.localStorage
+        }
+    )
   }
 
   setValue (value: number) {
@@ -31,6 +45,17 @@ export class Model {
     this.rows = [];
     this.serviceFee = new ServiceFeeModel()
     makeAutoObservable(this, {}, {autoBind: true})
+    makePersistable(this, {
+      name: 'TableModel',
+      properties: [
+        {
+          key: 'rows',
+          deserialize: (value: string) => JSON.parse(value),
+          serialize: (value: ColumnsMapValue[][]) => JSON.stringify(value),
+        }
+      ],
+      storage: window.localStorage
+    })
   }
 
   get maxColSize (): number {
