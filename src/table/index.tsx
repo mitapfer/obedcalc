@@ -6,6 +6,7 @@ import { Button, Tooltip } from "antd";
 import { DollarOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Calculator } from "../calculator/calculator.tsx";
 import { truncateNumber } from '../utils';
+import { navigateController } from "./lib.ts";
 
 export const ServiceFeeComp = observer(() => {
   return (
@@ -61,11 +62,13 @@ export const Table = observer(() => {
                             }
                             <Border key={col.key}>
                               <Input
-                                type='text'
+                                id={`input-${rowIdx}-${colIdx}`}
+                                type="text"
                                 value={col.value}
                                 onChange={(e) => {
-                                  model.setCell(rowIdx, colIdx, e.target.value)
+                                  model.setCell(rowIdx, colIdx, e.target.value);
                                 }}
+                                onKeyDown={navigateController}
                               />
                             </Border>
                           </div>
