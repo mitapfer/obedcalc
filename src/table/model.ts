@@ -8,7 +8,7 @@ type ColumnsMapValue = {
   excludeServiceFee?: boolean;
 }
 
-const persons = ['№','Элёр', 'Жавлон', 'Санжар', 'Влад', 'Максад']
+const persons = ['№','Элёр', 'Жавлон', 'Санжар', 'Влад', 'Максад', 'Сардор']
 
 class ServiceFeeModel {
   value: number
@@ -54,11 +54,11 @@ export class Model {
 
   addRow() {
     const columns: ColumnsMapValue[] = []
-  
+
     for (let i = 0; i < this.maxColSize; i++) {
       columns.push({key: nanoid(), value: '', excludeServiceFee: false})
     }
-  
+
     this.rows.push(columns)
   }
 
@@ -128,7 +128,7 @@ export class Model {
         const value = calc(col.value)
         return acc + (isNaN(value) ? 0 : value)
       }, 0)
-      
+
       const serviceFeeSum = row.reduce((acc, col) => {
         if (!col.excludeServiceFee) {
           const value = calc(col.value)
@@ -136,7 +136,7 @@ export class Model {
         }
         return acc
       }, 0) * (this.serviceFee.value / 100)
-  
+
       return regularSum + serviceFeeSum
     })
   }
@@ -146,7 +146,7 @@ export class Model {
     this.rows.forEach(row => {
       let regularSum = 0
       let serviceFeeSum = 0
-      
+
       row.forEach(col => {
         const value = calc(col.value)
         if(!isNaN(value)){
@@ -156,10 +156,10 @@ export class Model {
           }
         }
       })
-  
+
       sum += regularSum + (serviceFeeSum * (this.serviceFee.value / 100))
     })
-  
+
     return sum
   }
 

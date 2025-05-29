@@ -2,19 +2,11 @@ import {GenerateColumn, Table} from "./table";
 import {model} from "./table/model.ts";
 import {observer} from "mobx-react-lite";
 
-function App() {
+export const App = observer(() => {
 
-  return (
-    <>
-      {
-        model.rows.length > 0
-        ?
-          <Table />
-          :
-          <GenerateColumn />
-      }
-    </>
-  )
-}
+  if(model.rows.length > 0) {
+    return <Table />
+  }
 
-export default observer(App)
+  return <GenerateColumn />
+})

@@ -19,6 +19,7 @@ export const ServiceFeeComp = observer(() => {
     </div>
   )
 })
+
 export const Table = observer(() => {
   return (
     <>
