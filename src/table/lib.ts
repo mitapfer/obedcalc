@@ -68,3 +68,33 @@ function toSplit (val: string, separator: string) {
 function check (nums: number[]) {
   return nums.some(n => isNaN(n))
 }
+
+export function navigateController (e: React.KeyboardEvent<HTMLInputElement>) {
+  if(e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
+    e.preventDefault()
+    const input = e.target as HTMLInputElement
+    const id = input.id.split('-')
+    const rowIdx = Number(id[1])
+    const colIdx = Number(id[2])
+
+    let nextRowIdx = rowIdx
+    let nextColIdx = colIdx
+
+    if(e.key === 'ArrowDown'){
+      nextRowIdx += 1
+    } else if(e.key === 'ArrowUp'){
+      nextRowIdx -= 1
+    } else if(e.key === 'ArrowLeft'){
+      nextColIdx -= 1
+    } else if(e.key === 'ArrowRight'){
+      nextColIdx += 1
+    }
+
+    const nextInput = document.getElementById(`input-${nextRowIdx}-${nextColIdx}`) as HTMLInputElement
+
+    if(nextInput){
+      nextInput.focus()
+      nextInput.select()
+    }
+  }
+}
