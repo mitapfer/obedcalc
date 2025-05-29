@@ -8,7 +8,7 @@ type ColumnsMapValue = {
   excludeServiceFee?: boolean;
 }
 
-const persons = ['№', 'Жавлон', 'Влад', 'Максад', 'Сардор', 'Михаил', 'Элёр', 'Санжар' ]
+const persons = ['№', 'Жавлон', 'Влад', 'Михаил', 'Сардор', 'Максад', 'Элёр', 'Санжар' ]
 
 class ServiceFeeModel {
   value: number

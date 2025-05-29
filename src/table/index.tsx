@@ -5,6 +5,7 @@ import Input from "antd/es/input/Input";
 import { Button, Tooltip } from "antd";
 import { DollarOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Calculator } from "../calculator/calculator.tsx";
+import { truncateNumber } from '../utils';
 
 export const ServiceFeeComp = observer(() => {
   return (
@@ -78,14 +79,14 @@ export const Table = observer(() => {
                             rowIdx === 0 && (
                               <div className='flex justify-center'>
                                 <span className='leading-[10px]'>Обслуга</span><MinusCircleOutlined
-                                  style={{ opacity: 0 }} />
+                                style={{ opacity: 0 }} />
                               </div>
                             )
                           }
                           <Border>
                             <Input
                               type='text'
-                              value={model.serviceFeeSum[rowIdx]}
+                              value={truncateNumber(model.serviceFeeSum[rowIdx])}
                               disabled
                               style={{
                                 color: 'brown'
@@ -106,7 +107,7 @@ export const Table = observer(() => {
                       <Border>
                         <Input
                           type='text'
-                          value={model.totalRowsSum[rowIdx]}
+                          value={truncateNumber(model.totalRowsSum[rowIdx])}
                           disabled
                           style={{
                             color: 'green'
@@ -123,7 +124,7 @@ export const Table = observer(() => {
             )
           })
         }
-        <h1 className='flex justify-end my-2'>Общая сумма: {model.sum}</h1>
+        <h1 className='flex justify-end my-2'>Общая сумма: {truncateNumber(model.sum)}</h1>
       </div>
       <Calculator />
     </>
