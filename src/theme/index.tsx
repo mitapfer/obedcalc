@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
-
 interface ThemeContextType {
-  theme: Theme;
+  theme: string;
   toggleTheme: () => void;
 }
 
@@ -14,10 +12,11 @@ type Props = {
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: Props) => {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<string>(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
     const root = window.document.documentElement;
+    localStorage.setItem("theme", theme);
 
     if (theme === "dark") {
       root.classList.add("dark");

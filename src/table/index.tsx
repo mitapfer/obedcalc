@@ -1,7 +1,7 @@
 import { FormModel, model } from "./model.ts";
 import { observer } from "mobx-react-lite";
 import { Fragment, ReactNode, useState } from "react";
-import { Button, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import {DollarOutlined, MinusCircleOutlined, MoonOutlined, SunOutlined} from '@ant-design/icons';
 import { Calculator } from "../calculator/calculator.tsx";
 import { truncateNumber } from '../utils';
@@ -162,7 +162,7 @@ export function Border({ children }: { children: ReactNode }) {
 export const GenerateColumn = observer(() => {
   const [form] = useState(() => new FormModel())
   return (
-    <div className='p-6 border border-black'>
+    <div className='p-6 border border-black dark:border-white'>
       <h1 className='mb-2 text-center'>Генерация таблицы</h1>
       <div className="flex gap-2">
         <label>
@@ -185,9 +185,9 @@ export const GenerateColumn = observer(() => {
         </label>
       </div>
       <div className="flex justify-end mt-3">
-        <Button type='dashed' onClick={form.generate}>
+        <ButtonUI onClick={form.generate}>
           Генерировать
-        </Button>
+        </ButtonUI>
       </div>
     </div>
   )
