@@ -7,6 +7,7 @@ import { DollarOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Calculator } from "../calculator/calculator.tsx";
 import { truncateNumber } from '../utils';
 import { navigateController } from "./lib.ts";
+import {ReceiptScanner} from "../scanner";
 
 export const ServiceFeeComp = observer(() => {
   return (
@@ -25,6 +26,7 @@ export const ServiceFeeComp = observer(() => {
 export const Table = observer(() => {
   return (
     <>
+        <ReceiptScanner />
       <ServiceFeeComp />
       <div className='flex gap-2 mb-3'>
         <Button onClick={model.addRow}>
