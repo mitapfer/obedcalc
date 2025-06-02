@@ -12,7 +12,7 @@ export const Buttons = ({ inputHandler, clearInput, backspace, changePlusMinus, 
   });
 
   return (
-    <div className="show-btn">
+    <div className="show-btn dark:!bg-[var(--black)]">
       <button className="btn exp" onClick={inputHandler}>
         ^
       </button>
