@@ -1,18 +1,19 @@
 import { FormModel, model } from "./model.ts";
 import { observer } from "mobx-react-lite";
 import { Fragment, ReactNode, useState } from "react";
-import Input from "antd/es/input/Input";
 import { Button, Tooltip } from "antd";
-import { DollarOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import {DollarOutlined, MinusCircleOutlined, MoonOutlined, SunOutlined} from '@ant-design/icons';
 import { Calculator } from "../calculator/calculator.tsx";
 import { truncateNumber } from '../utils';
 import { navigateController } from "./lib.ts";
+import {useTheme} from '../theme';
+import {ButtonUI, InputUI} from '../ui';
 
 export const ServiceFeeComp = observer(() => {
   return (
     <div className='mb-3'>
       <h6>Обслуга</h6>
-      <Input
+      <InputUI
         type='number'
         placeholder='Обслуга'
         value={model.serviceFee.value}
@@ -23,22 +24,31 @@ export const ServiceFeeComp = observer(() => {
 })
 
 export const Table = observer(() => {
+  const { theme, toggleTheme } = useTheme();
+
+  const isDark = theme === "dark";
+
   return (
     <>
       <ServiceFeeComp />
-      <div className='flex gap-2 mb-3'>
-        <Button onClick={model.addRow}>
-          Добавить строку
-        </Button>
-        <Button onClick={model.addCol}>
-          Добавить колонку
-        </Button>
-        <Button danger onClick={model.clearAll}>
-          Очистить все
-        </Button>
-        <Button danger onClick={model.reset}>
-          Удалить все
-        </Button>
+      <div className='flex justify-between gap-2 mb-3'>
+        <div className="flex gap-2">
+          <ButtonUI onClick={model.addRow}>
+            Добавить строку
+          </ButtonUI>
+          <ButtonUI onClick={model.addCol}>
+            Добавить колонку
+          </ButtonUI>
+          <ButtonUI kind="danger" onClick={model.clearAll}>
+            Очистить все
+          </ButtonUI>
+          <ButtonUI kind="danger" onClick={model.reset}>
+            Удалить все
+          </ButtonUI>
+        </div>
+        <ButtonUI kind="default" onClick={toggleTheme}>
+          {theme === "light" ? <MoonOutlined /> : <SunOutlined />}
+        </ButtonUI>
       </div>
       <div>
         {
@@ -67,7 +77,7 @@ export const Table = observer(() => {
                               )
                             }
                             <Border key={col.key}>
-                              <Input
+                              <InputUI
                                 id={`input-${rowIdx}-${colIdx}`}
                                 type="text"
                                 value={col.value}
@@ -93,7 +103,7 @@ export const Table = observer(() => {
                             )
                           }
                           <Border>
-                            <Input
+                            <InputUI
                               type='text'
                               value={truncateNumber(model.serviceFeeSum[rowIdx])}
                               disabled
@@ -114,12 +124,13 @@ export const Table = observer(() => {
                         )
                       }
                       <Border>
-                        <Input
+                        <InputUI
                           type='text'
                           value={truncateNumber(model.totalRowsSum[rowIdx])}
                           disabled
                           style={{
-                            color: 'green'
+                            color: isDark ? '#00bb00' : "green",
+                            backgroundColor: isDark ? "rgba(255, 255, 255, 0.1)" : "",
                           }}
                         />
                       </Border>
@@ -142,7 +153,7 @@ export const Table = observer(() => {
 
 export function Border({ children }: { children: ReactNode }) {
   return (
-    <div className='p-2 border border-black'>
+    <div className='p-2 border border-black dark:border-[#5c5c5c]'>
       {children}
     </div>
   )
@@ -156,7 +167,7 @@ export const GenerateColumn = observer(() => {
       <div className="flex gap-2">
         <label>
           <div>Кол-во строк</div>
-          <Input
+          <InputUI
             min={1}
             type="number"
             placeholder='Кол-во строк'
@@ -165,7 +176,7 @@ export const GenerateColumn = observer(() => {
         </label>
         <label>
           <div>Кол-во колонок</div>
-          <Input
+          <InputUI
             min={1}
             type="number"
             placeholder='Кол-во колонок'
