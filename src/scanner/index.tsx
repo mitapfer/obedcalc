@@ -121,10 +121,10 @@ export function ReceiptScanner() {
             const canvas = preprocessImage(imageRef.current);
             const dataUrl = canvas.toDataURL('image/png');
 
-            const worker = await Tesseract.createWorker()
+            const worker = await Tesseract.createWorker('rus+eng')
 
             await worker.setParameters({
-                logger: (m: unknown) => console.log(m),
+                // logger: (m: unknown) => console.log(m),
                 tessedit_char_whitelist: '0123456789,.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ θØ',
                 tessedit_pagesegmode: '4', // PSM 4: Предполагает один столбец текста
                 tessedit_ocr_engine_mode: '1', // LSTM для лучшей точности
