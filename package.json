@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.2.6",
+    "@ant-design/icons": "^5.6.1",
     "antd": "^5.12.7",
     "mathjs": "^12.3.1",
     "mobx": "^6.12.0",

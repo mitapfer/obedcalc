@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --black: #191919;
+}
 
 *, *::before, *::after {
     box-sizing: border-box;
