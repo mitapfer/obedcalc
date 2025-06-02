@@ -47,10 +47,6 @@
     user-select: none;
 }
 
-.dark .btn {
-    color: #000;
-}
-
 @media (min-width: 800px) {
     .btn:hover {
         background-color: #6dd5ed;
