@@ -8,6 +8,7 @@ import { truncateNumber } from '../utils';
 import { navigateController } from "./lib.ts";
 import {useTheme} from '../theme';
 import {ButtonUI, InputUI} from '../ui';
+import {displayModel} from "../display/model.ts";
 
 export const ServiceFeeComp = observer(() => {
   return (
@@ -60,7 +61,7 @@ export const Table = observer(() => {
                     {
                       cols.map((col, colIdx) => {
                         return (
-                          <div>
+                          <div key={col.key}>
                             {
                               rowIdx === 0 && (
                                 <div className={`flex justify-center gap-2 ${colIdx === 0 ? 'opacity-0' : ''}`}>
@@ -146,7 +147,9 @@ export const Table = observer(() => {
         }
         <h1 className='flex justify-end my-2'>Общая сумма: {truncateNumber(model.sum)}</h1>
       </div>
-      <Calculator />
+        {
+            displayModel.calculator && <Calculator />
+        }
     </>
   );
 });
