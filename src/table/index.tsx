@@ -1,6 +1,6 @@
 import { FormModel, model } from "./model.ts";
 import { observer } from "mobx-react-lite";
-import {Fragment, ReactNode, useEffect, useState} from 'react';
+import {Fragment, ReactNode, useState} from 'react';
 import { Tooltip } from "antd";
 import {DollarOutlined, MinusCircleOutlined, MoonOutlined, SunOutlined} from '@ant-design/icons';
 import { Calculator } from "../calculator/calculator.tsx";
